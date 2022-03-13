@@ -1,15 +1,21 @@
-const sharp = require('sharp');
+import sharp from 'sharp';
 
-var transformer = async function () {
-    try {
-        await sharp ('../assets/full/fjord.jpg')
-            .resize(300, 300, {
-                fit: 'contain',
-            })
-            .toFile('../assets/thumb/fjord300.jpg')
-    } catch (error) {
-        console.log(error);
-    }
-}
+const configurarTamanho = async function (
+  imageName: string,
+  width: any,
+  height: any
+) {
+  try {
+    await sharp(`../assets/full/${imageName}.jpg`)
+      .resize(parseInt(width), parseInt(height), {
+        fit: 'contain'
+      })
+      .toFile(`../assets/thumb/${imageName}-${width}-${height}.jpg`);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-module.exports = transformer;
+configurarTamanho('santamonica', 300, 300)
+
+export default configurarTamanho;

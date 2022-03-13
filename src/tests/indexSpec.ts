@@ -1,3 +1,5 @@
 const request = require('supertest');
 
-it('should run', () => {});
+it('should run', () => {
+    console.log('teste');
+});

@@ -35,19 +35,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var sharp = require('sharp');
-var transformer = function () {
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var sharp_1 = __importDefault(require("sharp"));
+var configurarTamanho = function (imageName, width, height) {
     return __awaiter(this, void 0, void 0, function () {
         var error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, sharp('../assets/full/fjord.jpg')
-                            .resize(300, 300, {
-                            fit: 'contain',
+                    return [4 /*yield*/, (0, sharp_1.default)("../assets/full/".concat(imageName, ".jpg"))
+                            .resize(parseInt(width), parseInt(height), {
+                            fit: 'contain'
                         })
-                            .toFile('../assets/thumb/fjord300.jpg')];
+                            .toFile("../assets/thumb/".concat(imageName, "-").concat(width, "-").concat(height, ".jpg"))];
                 case 1:
                     _a.sent();
                     return [3 /*break*/, 3];
@@ -60,5 +64,5 @@ var transformer = function () {
         });
     });
 };
-transformer();
-module.exports = transformer;
+configurarTamanho('santamonica', 300, 300);
+exports.default = configurarTamanho;
