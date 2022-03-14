@@ -47,22 +47,22 @@ var configurarTamanho = function (imageName, width, height) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, (0, sharp_1.default)("../assets/full/".concat(imageName, ".jpg"))
-                            .resize(parseInt(width), parseInt(height), {
+                    return [4 /*yield*/, (0, sharp_1.default)("./assets/full/".concat(imageName, ".jpg"))
+                            .resize(width, height, {
                             fit: 'contain'
                         })
-                            .toFile("../assets/thumb/".concat(imageName, "-").concat(width, "-").concat(height, ".jpg"))];
+                            .toFile("./assets/thumb/".concat(imageName, "-").concat(width, "-").concat(height, ".jpg"))];
                 case 1:
                     _a.sent();
                     return [3 /*break*/, 3];
                 case 2:
                     error_1 = _a.sent();
-                    console.log(error_1);
+                    console.log('catch error');
+                    console.log(error_1.message);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
         });
     });
 };
-configurarTamanho('santamonica', 300, 300);
 exports.default = configurarTamanho;

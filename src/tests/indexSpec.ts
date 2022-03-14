@@ -1,5 +1,5 @@
-const request = require('supertest');
+import * as request from "supertest";
 
 it('should run', () => {
-    console.log('teste');
+  console.log('teste');
 });
