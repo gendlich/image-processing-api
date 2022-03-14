@@ -13,3 +13,4 @@ app.use(image_1.default);
 app.listen(port, function () {
     console.log("App listening on port ".concat(port));
 });
+exports.default = app;
