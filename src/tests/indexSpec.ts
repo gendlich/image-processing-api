@@ -7,7 +7,7 @@ import * as fs from 'fs';
 const request = supertest(app);
 describe('endpoint testing:', () => {
   it('should test if the api endpoint is working', async () => {
-    const res = await request.get('/api');
+    const res = await request.get('/api/image?name=santamonica&width=300&height=300');
     expect(res.status).toBe(200);
   });
 });

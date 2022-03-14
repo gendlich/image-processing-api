@@ -4,7 +4,7 @@ const configurarTamanho = async function (
   imageName: string,
   width: number,
   height: number
-) {
+) : Promise<void> {
   try {
     await sharp(`./public/full/${imageName}.jpg`)
       .resize(width, height, {
@@ -12,9 +12,9 @@ const configurarTamanho = async function (
       })
       .toFile(`./public/thumb/${imageName}-${width}-${height}.jpg`);
   } catch (error) {
-    console.log('catch error');
     console.log(error);
   }
+
 };
 
 export default configurarTamanho;

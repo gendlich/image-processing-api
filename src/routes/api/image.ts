@@ -5,7 +5,7 @@ import * as fs from 'fs';
 
 const imageRoute = express.Router();
 
-imageRoute.get('/', async (req: Request, res: Response) => {
+imageRoute.get('/', async (req: Request, res: Response): Promise<void> => {
   const imageName = req.query.name as string;
   const width = parseInt(req.query.width as string);
   const height = parseInt(req.query.height as string);
