@@ -74,10 +74,29 @@ imageRoute.get('/api/image', function (req, res) { return __awaiter(void 0, void
                 imageName = req.query.name;
                 width = parseInt(req.query.width);
                 height = parseInt(req.query.height);
+                if (!(imageName || width || height)) {
+                    res.status(400).send('There are missing parameters, go to README to learn how to use the API');
+                    return [2 /*return*/];
+                }
+                else if (!(imageName == 'encenadaport' ||
+                    imageName == 'fjord' ||
+                    imageName == 'icelandwaterfall' ||
+                    imageName == 'palmtunnel' ||
+                    imageName == 'santamonica')) {
+                    res.status(400).send('invalid name parameter, go to README to learn how to use the API');
+                    return [2 /*return*/];
+                }
+                else if (width <= 0 || height <= 0) {
+                    res.status(400).send('width and height has to be an integer and positive');
+                    return [2 /*return*/];
+                }
+                else if (isNaN(width) || isNaN(height)) {
+                    res.status(400).send('width and height has to be a number');
+                    return [2 /*return*/];
+                }
                 return [4 /*yield*/, (0, transformer_1.default)(imageName, width, height)];
             case 1:
                 _a.sent();
-                console.log('./../../../public/thumb/' + imageName + '-' + width + '-' + height + '.jpg');
                 res.status(200).sendFile(path.join(__dirname, '../../../public', 'thumb', "".concat(imageName, "-").concat(width, "-").concat(height, ".jpg")));
                 return [2 /*return*/];
         }
