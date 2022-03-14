@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,30 +62,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var sharp_1 = __importDefault(require("sharp"));
-var configurarTamanho = function (imageName, width, height) {
-    return __awaiter(this, void 0, void 0, function () {
-        var error_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, (0, sharp_1.default)("./public/full/".concat(imageName, ".jpg"))
-                            .resize(width, height, {
-                            fit: 'contain'
-                        })
-                            .toFile("./public/thumb/".concat(imageName, "-").concat(width, "-").concat(height, ".jpg"))];
-                case 1:
-                    _a.sent();
-                    return [3 /*break*/, 3];
-                case 2:
-                    error_1 = _a.sent();
-                    console.log('catch error');
-                    console.log(error_1);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
+var transformer_1 = __importDefault(require("../../transformer"));
+var express_1 = __importDefault(require("express"));
+var path = __importStar(require("path"));
+var imageRoute = express_1.default.Router();
+imageRoute.get('/api/image', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var imageName, width, height;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                imageName = req.query.name;
+                width = parseInt(req.query.width);
+                height = parseInt(req.query.height);
+                return [4 /*yield*/, (0, transformer_1.default)(imageName, width, height)];
+            case 1:
+                _a.sent();
+                console.log('./../../../public/thumb/' + imageName + '-' + width + '-' + height + '.jpg');
+                res.status(200).sendFile(path.join(__dirname, '../../../public', 'thumb', "".concat(imageName, "-").concat(width, "-").concat(height, ".jpg")));
+                return [2 /*return*/];
+        }
     });
-};
-exports.default = configurarTamanho;
+}); });
+exports.default = imageRoute;
