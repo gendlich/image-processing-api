@@ -65,17 +65,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var transformer_1 = __importDefault(require("../../transformer"));
 var express_1 = __importDefault(require("express"));
 var path = __importStar(require("path"));
+var fs = __importStar(require("fs"));
 var imageRoute = express_1.default.Router();
 imageRoute.get('/api/image', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var imageName, width, height;
+    var imageName, width, height, imagePath;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 imageName = req.query.name;
                 width = parseInt(req.query.width);
                 height = parseInt(req.query.height);
+                imagePath = path.join(__dirname, '../../../public', 'thumb', "".concat(imageName, "-").concat(width, "-").concat(height, ".jpg"));
                 if (!(imageName || width || height)) {
-                    res.status(400).send('There are missing parameters, go to README to learn how to use the API');
+                    res
+                        .status(400)
+                        .send('There are missing parameters, go to README to learn how to use the API');
                     return [2 /*return*/];
                 }
                 else if (!(imageName == 'encenadaport' ||
@@ -83,7 +87,9 @@ imageRoute.get('/api/image', function (req, res) { return __awaiter(void 0, void
                     imageName == 'icelandwaterfall' ||
                     imageName == 'palmtunnel' ||
                     imageName == 'santamonica')) {
-                    res.status(400).send('invalid name parameter, go to README to learn how to use the API');
+                    res
+                        .status(400)
+                        .send('invalid name parameter, go to README to learn how to use the API');
                     return [2 /*return*/];
                 }
                 else if (width <= 0 || height <= 0) {
@@ -94,10 +100,16 @@ imageRoute.get('/api/image', function (req, res) { return __awaiter(void 0, void
                     res.status(400).send('width and height has to be a number');
                     return [2 /*return*/];
                 }
+                else if (fs.existsSync(imagePath)) {
+                    res.status(200).sendFile(imagePath);
+                    return [2 /*return*/];
+                }
                 return [4 /*yield*/, (0, transformer_1.default)(imageName, width, height)];
             case 1:
                 _a.sent();
-                res.status(200).sendFile(path.join(__dirname, '../../../public', 'thumb', "".concat(imageName, "-").concat(width, "-").concat(height, ".jpg")));
+                res
+                    .status(200)
+                    .sendFile(imagePath);
                 return [2 /*return*/];
         }
     });
