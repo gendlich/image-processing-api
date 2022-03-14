@@ -5,10 +5,17 @@ import * as fs from 'fs';
 
 const imageRoute = express.Router();
 
-imageRoute.get('/api/image', async (req: Request, res: Response) => {
+imageRoute.get('/', async (req: Request, res: Response) => {
   const imageName = req.query.name as string;
   const width = parseInt(req.query.width as string);
   const height = parseInt(req.query.height as string);
+
+  const filePath = path.join(__dirname, '../../../public', 'thumb');
+  if (!fs.existsSync(filePath))
+    fs.mkdir(path.join(filePath), (err) => {
+      if (err) throw err;
+    });
+
   const imagePath = path.join(
     __dirname,
     '../../../public',
@@ -42,15 +49,13 @@ imageRoute.get('/api/image', async (req: Request, res: Response) => {
   } else if (isNaN(width) || isNaN(height)) {
     res.status(400).send('width and height has to be a number');
     return;
-  } else if (fs.existsSync(imagePath)){
-    res.status(200).sendFile(imagePath)
+  } else if (fs.existsSync(imagePath)) {
+    res.status(200).sendFile(imagePath);
     return;
   }
 
   await configurarTamanho(imageName, width, height);
-  res
-    .status(200)
-    .sendFile(imagePath);
+  res.status(200).sendFile(imagePath);
 });
 
 export default imageRoute;
